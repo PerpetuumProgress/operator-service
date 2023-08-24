@@ -28,7 +28,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/oval-metadatacache:dev
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/oval-operator-service:dev
   deployment:
     needs: build
     runs-on: 'ubuntu-latest'
@@ -36,12 +36,12 @@ jobs:
       - uses: actions/checkout@v1
       - name: Prep helm chart
         run: |
-          mv ./oval-chart/Chart.yaml ./oval-chart/Chart.old.yaml &&
-          cat ./oval-chart/Chart.old.yaml | grep -v appVersion > ./oval-chart/Chart.yaml &&
-          echo -e "\r\nappVersion: v${GITHUB_REF##*/}\r\n" >> ./oval-chart/Chart.yaml &&
-          cat ./oval-chart/Chart.yaml
+          mv ./kubernetes/helm-chart/operator-service/Chart.yaml ./kubernetes/helm-chart/operator-service/Chart.old.yaml &&
+          cat ./kubernetes/helm-chart/operator-service/Chart.old.yaml | grep -v appVersion > ./kubernetes/helm-chart/operator-service/Chart.yaml &&
+          echo -e "\r\nappVersion: v${GITHUB_REF##*/}\r\n" >> ./kubernetes/helm-chart/operator-service/Chart.yaml &&
+          cat ./kubernetes/helm-chart/operator-service/Chart.yaml
       - name: Deploy
         uses: WyriHaximus/github-action-helm3@v2
         with:
-          exec: helm upgrade dev-metadatacache-oval ./oval-chart --install --wait --atomic --namespace=dev-oval --set=app.name=metadatacache_oval --set=rpc_url=${{secrets.DEV_RPC_URL}} --values=./oval-chart/dev-values.yaml
+          exec: helm upgrade operator-service ./kubernetes/helm-chart/operator-service --install --wait --atomic --namespace=dev-oval --values=./kubernetes/helm-chart/operator-service/dev-values.yaml
           kubeconfig: '${{ secrets.DEV_KUBECONFIG }}'
