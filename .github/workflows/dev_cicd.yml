@@ -43,5 +43,5 @@ jobs:
       - name: Deploy
         uses: WyriHaximus/github-action-helm3@v3
         with:
-          exec: helm upgrade operator-service ./kubernetes/helm-chart/operator-service --install --wait --atomic --namespace=dev-oval --values=./kubernetes/helm-chart/operator-service/dev-values.yaml
+          exec: helm upgrade operator-service ./kubernetes/helm-chart/operator-service --install --wait --atomic --namespace=ocean-operator --set=allowed_admin=${{ secrets.ALLOWED_ADMIN}} --values=./kubernetes/helm-chart/operator-service/dev-values.yaml
           kubeconfig: '${{ secrets.DEV_KUBECONFIG }}'

@@ -14,14 +14,12 @@ image:
     value: '0'
   - name: 'ALLOWED_PROVIDERS'
     value: ""
-  - name: 'ALLOWED_ADMINS'
-    value: ""
   - name: 'POSTGRES_DB'
     value: "postgres"
   - name: 'POSTGRES_USER'
     value: "postgres"
   - name: 'POSTGRES_HOST'
-    value: "postgres.ocean-operator.svc.cluster.local"
+    value: "operator-service-postgresql.ocean-operator.svc.cluster.local"
   - name: 'POSTGRES_PORT'
     value: '5432'
   # Overrides the image tag whose default is the chart appVersion.
@@ -55,7 +53,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8050
 
 ingress:
   enabled: false

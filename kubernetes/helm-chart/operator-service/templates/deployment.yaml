@@ -34,11 +34,13 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-      #      - name: POSTGRES_PASSWORD
-      #        valueFrom:
-      #          secretKeyRef:
-      #            name: operator-service-postgresql
-      #            key: postgres-password
+            - name: "ALLOWED_ADMIN"
+              value: {{ .Values.allowed_admin}}   
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: operator-service-postgresql
+                  key: postgres-password
             {{- range .Values.image.env }}
             - name: {{ quote .name }}
               value: {{ quote .value }}

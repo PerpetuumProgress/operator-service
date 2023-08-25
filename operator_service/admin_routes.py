@@ -41,6 +41,15 @@ def init_pgsql_compute():
     connection = None
     cursor = None
     try:
+        # connect to the PostgreSQL server
+        # log connection string
+        logger.info("Connecting to the PostgreSQL database...")
+        logger.info("POSTGRES_USER: " + os.getenv("POSTGRES_USER"))
+        logger.info("POSTGRES_PASSWORD: " + os.getenv("POSTGRES_PASSWORD"))
+        logger.info("POSTGRES_HOST: " + os.getenv("POSTGRES_HOST"))
+        logger.info("POSTGRES_PORT: " + os.getenv("POSTGRES_PORT"))
+        logger.info("POSTGRES_DB: " + os.getenv("POSTGRES_DB"))
+        
         connection = psycopg2.connect(
             user=os.getenv("POSTGRES_USER"),
             password=os.getenv("POSTGRES_PASSWORD"),
