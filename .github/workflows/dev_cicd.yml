@@ -41,7 +41,7 @@ jobs:
           echo -e "\r\nappVersion: v${GITHUB_REF##*/}\r\n" >> ./kubernetes/helm-chart/operator-service/Chart.yaml &&
           cat ./kubernetes/helm-chart/operator-service/Chart.yaml
       - name: Deploy
-        uses: WyriHaximus/github-action-helm3@v2
+        uses: WyriHaximus/github-action-helm3@v3
         with:
           exec: helm upgrade operator-service ./kubernetes/helm-chart/operator-service --install --wait --atomic --namespace=dev-oval --values=./kubernetes/helm-chart/operator-service/dev-values.yaml
           kubeconfig: '${{ secrets.DEV_KUBECONFIG }}'
